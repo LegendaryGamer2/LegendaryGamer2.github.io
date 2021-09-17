@@ -1,10 +1,3 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
 let x = 0
 let y = 0
 let bColor = 255
@@ -25,25 +18,27 @@ class Ball{
   
   }
   move(){
-  if (loop1 === 0){
-  if (length <= windowHeight / 3.4){
+
+  if (this.y <= y1 - 25){
     this.y += .2
-    length += .2
+
   }
-  else if (length <= windowWidth / 1.25 && length > windowWidth / 7.5){
+  else if (this.x <= x2 + 25 && loop1 <= 10000){
     this.x += .2
-    length += .2
+    loop1 += 1
   }
-  else if(length <= windowHeight / .73 && length > windowWidth / 1.25){
+  else if(this.y <= y2 + 25){
     this.y += .2
-    length += .2
+
+
+  
   }
-  else if(length >= windowHeight / .73 && length <= windowWidth / 1.25){
-    this.x += .2
-    length += .2
+  
+  
+  
   }
-  }
-}
+  
+  
     correcting(){
     if (this.x !== windowWidth/ 10){
       this.x = windowWidth / 10 + 25
@@ -74,8 +69,9 @@ function draw() {
 for(let ball of balls){
   u = balls[1] 
     u.circleCreator()
-    u.move()
+  u.move()
 
+  
 }
 function pathway(){
   //setting up path of the enemies
