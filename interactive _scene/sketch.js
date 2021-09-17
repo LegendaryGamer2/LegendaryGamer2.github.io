@@ -10,9 +10,9 @@ let y = 0
 let bColor = 255
 let testimage;
 let button;
-function preload() {
-  testimage = loadImage("Testing Image.png");
-}
+// function preload() {
+//   testimage = loadImage("Testing Image.png");
+// }
 
 
 let length = 0;
@@ -59,21 +59,21 @@ function setup() {
   circle1.correcting() // to make the ball centered between the lines
 //   code below is to use a button
 
-  tower1 = createButton('');
-  tower1.size(25, 25);
-  tower1.position(400, 375);
+  // tower1 = createButton('');
+  // tower1.size(25, 25);
+  // tower1.position(400, 375);
 }
 
 function draw() {
   background(bColor);
   // frameRate(1)
 
-  image(testimage, 400, 375);
+  // image(testimage, 400, 375);
   // grid()
   pathway();
   circle1.circleCreator()
   circle1.move()
-  tower1.mousePressed(grid)
+  // tower1.mousePressed(grid)
 }
 
 
