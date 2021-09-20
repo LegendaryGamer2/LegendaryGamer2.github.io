@@ -9,6 +9,7 @@ let x2;
 let y1;
 let y2;
 let i;
+let stage = 0
 
 let length = 0;
 class Ball {
@@ -21,16 +22,18 @@ class Ball {
     circle(this.x, this.y, this.r);
   }
   move() {
-    if (changer === 0) {
-      loop1 = this.x;
+    if (changer <= 0) {
+      loop1 = x1 + 25;
       changer = 1;
     }
 
     if (this.y <= y1 - 25) {
+      
       this.y += speed;
     } 
     else if (this.x <= x2 + 25 && loop1 <= x2 + 25) {
-      loop1 += speed;
+      stage = 1
+      // loop1 += .1;
       this.x += speed;
     } 
     else if (this.y <= y2 + 25) {
@@ -44,6 +47,11 @@ class Ball {
   correcting() {
     if (this.x !== windowWidth / 10) {
       this.x = windowWidth / 10 + 25;
+    }
+  }
+  correcting2() {
+    if (this.x !== x1 + 25 && stage === 0) {
+      this.x = x1 + 25
     }
   }
 }
@@ -65,16 +73,21 @@ function draw() {
   frameRate(60);
   pathway();
 
+  
   for (let ball of balls) {
     ball.circleCreator();
     ball.move();
+    ball.correcting2();
+  }
+  function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
   }
   function pathway() {
     //setting up path of the enemies
-    x1 = width / 10;
-    y1 = height / 3;
-    x2 = width / 1.5;
-    y2 = height / 1.5;
+    x1 = windowWidth / 10;
+    y1 = windowHeight / 3;
+    x2 = windowWidth / 1.5;
+    y2 = windowHeight / 1.5;
     //First Row/ Entrance
     line(x1, 0, x1, y1);
     line(x1 + 50, 0, x1 + 50, y1 - 50);
