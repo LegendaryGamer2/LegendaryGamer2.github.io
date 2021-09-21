@@ -3,13 +3,13 @@ let y = 0;
 let bColor = 255;
 let loop1 = -1;
 let changer = 0;
-let speed = 0.2;
+let speed = 2;
 let x1;
 let x2;
 let y1;
 let y2;
 let i;
-let stage = 0
+let stage = 0;
 
 let length = 0;
 class Ball {
@@ -26,21 +26,36 @@ class Ball {
       loop1 = x1 + 25;
       changer = 1;
     }
-
+    // Code to make a ball go from start to first bend
     if (this.y <= y1 - 25) {
       
       this.y += speed;
     } 
+    // To make ball go from first bend to second
     else if (this.x <= x2 + 25 && loop1 <= x2 + 25) {
-      stage = 1
-      // loop1 += .1;
+      stage = 1;
+      loop1 += speed / 14;
       this.x += speed;
     } 
+    // To make ball go from second bend to third
     else if (this.y <= y2 + 25) {
+
       this.y += speed;
+      loop1 += 80;
     } 
-    else if (this.x >= x1 + 25 && loop1 >= x2 + 25) {
+    // To make ball go from third bend to fourth
+    else if (this.x > x1 + 25 && loop1 >= x2 + 25) {
       this.x -= speed;
+    }
+    // Correcting for if the ball goes over the last line
+    else if (this.x <= x1 + 24 && loop1 >= x2 + 25) {
+      this.x = x1 + 25;
+
+    }
+    // Makes ball go down to the exit
+    else if (this.y <= height){
+      
+      this.y += speed;
     }
   }
 
@@ -51,9 +66,13 @@ class Ball {
   }
   correcting2() {
     if (this.x !== x1 + 25 && stage === 0) {
-      this.x = x1 + 25
+      this.x = x1 + 25;
+
     }
+
   }
+
+  
 }
 let balls = [];
 for (i = 0; i <= 10; i++) {
