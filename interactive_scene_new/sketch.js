@@ -25,16 +25,18 @@ let loop2 = 0;
 let times = 0;
 let state = -1;
 let speedAdd = 0;
+let health = 1;
 function preload() {
   testimage = loadImage("Testing Image.png");
 }
 
 let length = 0;
 class Ball {
-  constructor(x, y, r) {
+  constructor(x, y, r, health) {
     this.x = x;
     this.y = y;
     this.r = r;
+    this.h = health;
   }
   circleCreator() {
     // fill("white");
@@ -87,7 +89,7 @@ class Ball {
             ball2.y = 0;
             ball2.correcting();
           }
-          speedAdd +=1;
+          speedAdd = random(0, 6);
           loop2 = 0;
         }
         else {
@@ -117,7 +119,7 @@ class Ball {
 }
 let balls = [];
 for (i = 0; i <= 10; i++) {
-  balls.push(new Ball(75, 0, 25));
+  balls.push(new Ball(75, 0, 25, health));
 }
 
 function setup() {
@@ -135,11 +137,15 @@ function draw() {
   frameRate(60);
   pathway();
   image(testimage, windowWidth / 1.3, windowHeight / 1.3);
-  speed = windowWidth/ 600 + windowHeight / 600 + speedAdd;
-
-  
+  speedChanger();
   createEnemy();
 }
+
+function speedChanger(){
+  speed = windowWidth/ 600 + windowHeight / 600 + speedAdd;
+}
+
+
 function createEnemy() {
   for (let ball of balls) {
     ball.circleCreator();
