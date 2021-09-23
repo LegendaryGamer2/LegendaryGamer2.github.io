@@ -26,17 +26,18 @@ let times = 0;
 let state = -1;
 let speedAdd = 0;
 let health = 1;
+
+
 function preload() {
   testimage = loadImage("Testing Image.png");
 }
 
 let length = 0;
 class Ball {
-  constructor(x, y, r, health) {
+  constructor(x, y, r) {
     this.x = x;
     this.y = y;
     this.r = r;
-    this.h = health;
   }
   circleCreator() {
     // fill("white");
@@ -55,7 +56,7 @@ class Ball {
         this.correcting2();
       }
       // To make ball go from first bend to second
-      else if (this.x <= x2 + 25 && loop1 <= x2 + 25) {
+      else if (this.x < x2 + 25 && loop1 <= x2 + 25) {
 
         loop1 += speed / 14;
         this.x += speed;
@@ -81,17 +82,18 @@ class Ball {
       else if (this.y >= height + 50) {
         console.log("done");
 
-        if (loop2 === 1000) {
+        if (loop2 === 2000) {
           loop1 = -1;
           changer = 0;
           for (let ball2 of balls) {
             ball2.x = 100;
-            ball2.y = 0;
+            ball2.y = -25;
             ball2.correcting();
           }
           speedAdd = random(0, 6);
           loop2 = 0;
-        }
+          
+        } 
         else {
           loop2 += 10;
         }
@@ -116,10 +118,17 @@ class Ball {
       this.x = x2 + 25;
     }
   }
+  restart(){
+    for (let ball2 of balls) {
+      ball2.x = 100;
+      ball2.y = 0;
+      ball2.correcting();
+    }
+  }
 }
 let balls = [];
-for (i = 0; i <= 10; i++) {
-  balls.push(new Ball(75, 0, 25, health));
+for (i = 0; i < 1; i++) {
+  balls.push(new Ball(75, -50, 25));
 }
 
 function setup() {
@@ -139,6 +148,7 @@ function draw() {
   image(testimage, windowWidth / 1.3, windowHeight / 1.3);
   speedChanger();
   createEnemy();
+  restart();
 }
 
 function speedChanger(){
@@ -158,6 +168,15 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 
 }
+
+function restart(){
+  if (health === 0){
+    for (let ballR of balls){
+      ballR.restart();
+    }
+  }
+}
+
 function pathway() {
   //setting up path of the enemies
   x1 = windowWidth / 10;
