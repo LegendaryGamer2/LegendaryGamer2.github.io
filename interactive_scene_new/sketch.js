@@ -28,6 +28,7 @@ let speedAdd = 0;
 let health = 1;
 
 
+
 function preload() {
   testimage = loadImage("Testing Image.png");
 }
@@ -39,11 +40,12 @@ class Ball {
     this.y = y;
     this.r = r;
   }
+  //   creates the actual circle
   circleCreator() {
     // fill("white");
     circle(this.x, this.y, this.r);
   }
-
+  // make the ball move accross the track
   move() {
     if (complete === 0) {
       if (changer === 0) {
@@ -66,6 +68,9 @@ class Ball {
         this.y += speed;
         loop1 += 80;
         this.correcting4();
+
+
+        
       }
       // To make ball go from third bend to fourth
       else if (this.x > x1 + 25 && loop1 >= x2 + 25) {
@@ -78,7 +83,9 @@ class Ball {
       // Makes ball go down to the exit
       else if (this.y <= height + 50) {
         this.y += speed;
+
       }
+      //       Sets up the next enemy to spawn
       else if (this.y >= height + 50) {
         console.log("done");
 
@@ -93,6 +100,7 @@ class Ball {
           speedAdd = random(0, 6);
           loop2 = 0;
           
+          
         } 
         else {
           loop2 += 10;
@@ -100,7 +108,7 @@ class Ball {
       }
     }
   }
-
+  // Correcting window being resized while running for most parts of the track
   correcting() {
     if (this.x !== windowWidth / 10) {
       this.x = windowWidth / 10 + 25;
@@ -118,6 +126,7 @@ class Ball {
       this.x = x2 + 25;
     }
   }
+  //   Restarting the ball path if it dies
   restart(){
     for (let ball2 of balls) {
       ball2.x = 100;
@@ -126,6 +135,7 @@ class Ball {
     }
   }
 }
+// Chooses how many balls keep it at 1 to make the object look clean
 let balls = [];
 for (i = 0; i < 1; i++) {
   balls.push(new Ball(75, -50, 25));
@@ -178,7 +188,7 @@ function restart(){
 }
 
 function pathway() {
-  //setting up path of the enemies
+  //Setting up path of the enemies
   x1 = windowWidth / 10;
   y1 = windowHeight / 3;
   x2 = windowWidth / 1.5;
