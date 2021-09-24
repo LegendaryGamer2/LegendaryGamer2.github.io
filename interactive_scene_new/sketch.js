@@ -1,13 +1,10 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Ball Tower Defense
+// Ali Ahmed
+// 24/9/2021
+// Extra for Experts: Interaction with the keyboard and mouse
+// - I made it so that if you press the e key then click on the screen it will place a tower down or if you click on the tower than click on the map it will place a tower down
 
 
-let x = 0;
-let y = 0;
 let bColor = 255;
 let loop1 = -1;
 let changer = 0;
@@ -26,7 +23,20 @@ let times = 0;
 let state = -1;
 let speedAdd = 0;
 let health = 1;
+let x = 0;
+let y = 0;
 
+
+
+let money = 300;
+let state_placing = 0;
+let towers = [];
+class tower {
+  constructor() {
+    this.x = mouseX;
+    this.y = mouseY;
+  }
+}
 
 
 function preload() {
@@ -40,12 +50,11 @@ class Ball {
     this.y = y;
     this.r = r;
   }
-  //   creates the actual circle
+  //   Creates the actual circle
   circleCreator() {
-    // fill("white");
     circle(this.x, this.y, this.r);
   }
-  // make the ball move accross the track
+  // Make the ball move accross the track
   move() {
     if (complete === 0) {
       if (changer === 0) {
@@ -85,7 +94,7 @@ class Ball {
         this.y += speed;
 
       }
-      //       Sets up the next enemy to spawn
+      // Sets up the next enemy to spawn
       else if (this.y >= height + 50) {
         console.log("done");
 
@@ -154,18 +163,31 @@ function setup() {
 function draw() {
   background(bColor);
   frameRate(60);
+  // Enemy related objects
   pathway();
-  image(testimage, windowWidth / 1.3, windowHeight / 1.3);
   speedChanger();
   createEnemy();
   restart();
+
+  // Image setting up
+  imageMode(CENTER);
+  image(testimage, windowWidth / 1.3, windowHeight / 1.3);
+  if (state_placing === 1){
+    image(testimage, mouseX, mouseY);
+  }
+  for(let block of towers){
+    image(testimage, block.x, block.y);
+  }
+  textSize(100);
+  text(money, windowWidth/3, 100);
 }
 
+// Increases and decreses speed of enemy
 function speedChanger(){
   speed = windowWidth/ 600 + windowHeight / 600 + speedAdd;
 }
 
-
+// Drawing the enemy
 function createEnemy() {
   for (let ball of balls) {
     ball.circleCreator();
@@ -174,11 +196,13 @@ function createEnemy() {
     
   }
 }
+// Resizing the window
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 
 }
 
+// Resetting the balls to the start of the track
 function restart(){
   if (health === 0){
     for (let ballR of balls){
@@ -212,4 +236,34 @@ function pathway() {
   //Last Row/ Exit
   line(x1, y2, x1, height);
   line(x1 + 50, y2 + 50, x1 + 50, height);
+}
+
+
+
+
+  
+
+
+
+function mouseClicked(){
+  if (mouseX <= windowWidth / 1.3 + 10 && mouseX >= windowWidth / 1.3 - 10 && mouseY <= windowHeight / 1.3 + 10 && mouseY >= windowHeight / 1.3 - 10){
+    state_placing = 1;
+
+  }
+  else if (state_placing === 1 && money >= 100){
+    towers.push(new tower(mouseX, mouseY));
+    money -= 100;
+    state_placing = 0;
+  }
+  else{
+    state_placing = 0;
+  }
+}
+
+
+function keyPressed() {
+  if (keyCode === 69) {
+    state_placing = 1;
+  } 
+
 }
