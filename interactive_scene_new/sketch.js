@@ -237,14 +237,7 @@ function pathway() {
   line(x1, y2, x1, height);
   line(x1 + 50, y2 + 50, x1 + 50, height);
 }
-
-
-
-
-  
-
-
-
+// All the tower code
 function mouseClicked(){
   if (mouseX <= windowWidth / 1.3 + 10 && mouseX >= windowWidth / 1.3 - 10 && mouseY <= windowHeight / 1.3 + 10 && mouseY >= windowHeight / 1.3 - 10){
     state_placing = 1;
