@@ -36,11 +36,16 @@ function draw() {
   image(testimage, windowWidth / 1.3, windowHeight / 1.3);
   if (state_placing === 1){
     image(testimage, mouseX, mouseY);
+    fill(0, 255, 0, 100);
+    circle(mouseX, mouseY, 100);
   }
-  for(let towels of towers){
-    image(testimage, towels.x, towels.y);
+  for(let block of towers){
+    image(testimage, block.x, block.y);
+    fill(0, 255, 0, 100);
+    circle(block.x, block.y, 100);
   }
   textSize(100);
+  fill(0);
   text(money, windowWidth/3, 100);
 }
 
