@@ -8,7 +8,7 @@ let testimage;
 let i;
 let x = 0;
 let y = 0;
-let money = 100;
+let money = 300;
 let state_placing = 0;
 let towers = [];
 class tower {
@@ -34,7 +34,9 @@ function draw() {
   background(220);
   imageMode(CENTER);
   image(testimage, windowWidth / 1.3, windowHeight / 1.3);
-
+  if (state_placing === 1){
+    image(testimage, mouseX, mouseY);
+  }
   
 
   for(let towels of towers){
@@ -52,6 +54,7 @@ function mouseClicked(){
   else if (state_placing === 1 && money >= 100){
     towers.push(new tower(mouseX, mouseY));
     money -= 100;
+    state_placing = 0;
   }
   else{
     state_placing = 0;
