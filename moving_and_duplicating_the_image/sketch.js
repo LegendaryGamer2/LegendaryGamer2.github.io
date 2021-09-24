@@ -37,8 +37,6 @@ function draw() {
   if (state_placing === 1){
     image(testimage, mouseX, mouseY);
   }
-  
-
   for(let towels of towers){
     image(testimage, towels.x, towels.y);
   }
