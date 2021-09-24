@@ -10,6 +10,7 @@ let x = 0;
 let y = 0;
 let money = 300;
 let state_placing = 0;
+let hit = false;
 let towers = [];
 class tower {
   constructor() {
@@ -39,10 +40,15 @@ function draw() {
     fill(0, 255, 0, 100);
     circle(mouseX, mouseY, 100);
   }
+
+  
   for(let block of towers){
     image(testimage, block.x, block.y);
     fill(0, 255, 0, 100);
     circle(block.x, block.y, 100);
+    hit = collidePointCircle(mouseX, mouseY, 200, 200, 100);
+    stroke(hit ? color("red") : 0);
+    print("colliding?", hit);
   }
   textSize(100);
   fill(0);
