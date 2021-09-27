@@ -5,6 +5,10 @@
 // - I made it so that if you press the e key then click on the screen it will place a tower down or if you click on the tower than click on the map it will place a tower down
 
 
+// sets if the game starts
+let starter = 0;
+
+
 let bColor = 255;
 let loop1 = -1;
 let changer = 0;
@@ -22,10 +26,13 @@ let loop2 = 0;
 let times = 0;
 let state = -1;
 let speedAdd = 0;
-let health = 1;
+let health = 10;
 let x = 0;
 let y = 0;
 let addHealth = 0;
+
+// total lives player has
+let lives = 10;
 
 // tower related stuff
 let money = 100;
@@ -57,6 +64,7 @@ class Ball {
   }
   //   Creates the actual circle
   circleCreator() {
+    fill(255)
     circle(this.x, this.y, this.r);
   }
   // Make the ball move accross the track
@@ -102,14 +110,15 @@ class Ball {
       // Sets up the next enemy to spawn
       else if (this.y >= height + 50) {
         console.log("done");
-
+        
         if (loop2 === 2000) {
+          lives -= 1
           loop1 = -1;
           changer = 0;
           for (let ball2 of balls) {
             ball2.restart();
           }
-          speedAdd = random(3, 7);
+          speedAdd = random(3, 5);
           loop2 = 0;
           
           
@@ -120,7 +129,7 @@ class Ball {
       }
     }
   }
-  // Correcting window being resized while running for most parts of the track
+  // Correcting window being resized while running for most parts of the track and the digit represents for which track
   correcting() {
     if (this.x !== windowWidth / 10) {
       this.x = windowWidth / 10 + 25;
@@ -166,6 +175,21 @@ function setup() {
 
 function draw() {
   background(bColor);
+  // creates the game if any key is pressed
+  if (starter === 0){
+  textSize(200);
+  text('Ball Tower Defense', windowWidth / 2 - 900, windowHeight / 2 - 200);
+  textSize(50);
+  text('Each tower costs 100 points and the balls health increases by 1 each time it dies', windowWidth / 2 - 900, windowHeight / 2 );
+  textSize(50);
+  text('To start the game press any key', windowWidth / 2 - 900, windowHeight / 2 + 100);
+  if (keyIsPressed === true){
+    keyIsPressed = false;
+    window.setInterval(start, 3000);
+    
+  }
+  }
+  else if (starter === 1){
   frameRate(60);
   // Enemy related objects
   pathway();
@@ -208,7 +232,22 @@ function draw() {
   textSize(100);
   fill(0);
   text(money, windowWidth/3, 100);
+  text(lives, windowWidth - 200, 100);
+  if (lives === 0){
+    starter = 2;
+  }
+  }
+  else if (starter === 2){
+    textSize(50);
+    text('You Lose, hit refresh to restart', windowWidth / 2 - 900, windowHeight / 2);
+    }
+  
 }
+
+function start (){
+  starter = 1
+}
+
 
 // Increases and decreses speed of enemy
 function speedChanger(){
@@ -240,6 +279,7 @@ function restart(){
 }
 
 function pathway() {
+  if (starter === 1){
   //Setting up path of the enemies
   x1 = windowWidth / 10;
   y1 = windowHeight / 3;
@@ -264,6 +304,7 @@ function pathway() {
   //Last Row/ Exit
   line(x1, y2, x1, height);
   line(x1 + 50, y2 + 50, x1 + 50, height);
+  }
 }
 // All the tower code
 function mouseClicked(){
