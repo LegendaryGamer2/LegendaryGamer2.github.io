@@ -25,16 +25,20 @@ let speedAdd = 0;
 let health = 1;
 let x = 0;
 let y = 0;
+let addHealth = 0;
 
-
-
-let money = 300;
+// tower related stuff
+let money = 10000;
 let state_placing = 0;
+let hit = false;
 let towers = [];
 class tower {
   constructor() {
     this.x = mouseX;
     this.y = mouseY;
+  }
+  hitted() {
+    health -=1;
   }
 }
 
@@ -42,13 +46,14 @@ class tower {
 function preload() {
   testimage = loadImage("Testing Image.png");
 }
-
+// enemy related behaviour
 let length = 0;
 class Ball {
-  constructor(x, y, r) {
+  constructor(x, y, r, h) {
     this.x = x;
     this.y = y;
     this.r = r;
+    this.h = health
   }
   //   Creates the actual circle
   circleCreator() {
@@ -62,7 +67,7 @@ class Ball {
         changer = 1;
       }
       // Code to make a ball go from start to first bend
-      if (this.y <= y1 - 25) {
+      if (this.y < y1 - 25) {
         this.y += speed;
         this.correcting2();
       }
@@ -102,11 +107,9 @@ class Ball {
           loop1 = -1;
           changer = 0;
           for (let ball2 of balls) {
-            ball2.x = 100;
-            ball2.y = -25;
-            ball2.correcting();
+            ball2.restart();
           }
-          speedAdd = random(0, 6);
+          speedAdd = random(3, 7);
           loop2 = 0;
           
           
@@ -141,13 +144,14 @@ class Ball {
       ball2.x = 100;
       ball2.y = 0;
       ball2.correcting();
+      ball2.h = 1 + addHealth;
     }
   }
 }
 // Chooses how many balls keep it at 1 to make the object look clean
 let balls = [];
 for (i = 0; i < 1; i++) {
-  balls.push(new Ball(75, -50, 25));
+  balls.push(new Ball(75, -50, 25, 2));
 }
 
 function setup() {
@@ -173,12 +177,36 @@ function draw() {
   imageMode(CENTER);
   image(testimage, windowWidth / 1.3, windowHeight / 1.3);
   if (state_placing === 1){
+    
     image(testimage, mouseX, mouseY);
-  }
+    fill(0, 255, 0, 100);
+    circle(mouseX, mouseY, 150);
+    }
+
+
   for(let block of towers){
     image(testimage, block.x, block.y);
+    fill(0, 255, 0, 100);
+    circle(block.x, block.y, 150);
+
+    for (let enemyH of balls){
+    hit = collidePointCircle(enemyH.x, enemyH.y, block.x, block.y, 150);
+    if (hit === true){
+      enemyH.h -= .05;
+    }
+      // ball killed 
+    if (enemyH.h <= 0){
+      enemyH.restart();
+      addHealth += 1;
+      money += 100;
+    }
+
+    }  
   }
+
+  
   textSize(100);
+  fill(0);
   text(money, windowWidth/3, 100);
 }
 
@@ -243,7 +271,8 @@ function mouseClicked(){
     state_placing = 1;
 
   }
-  else if (state_placing === 1 && money >= 100){
+  // placement of the tower
+  else if (state_placing === 1 && money >= 100 && ((mouseX > x1 + 50 && ((mouseY < y1 - 50 || mouseY > y1) && (mouseY > y2 + 50 || mouseY < y2))) || (mouseX < x1 && mouseY > 0 && mouseY < height) || (mouseX < x1 + 50 && (mouseY > y1 && mouseY < y2) || mouseX > x1 && (mouseY > y1 && mouseY < y2) ))){
     towers.push(new tower(mouseX, mouseY));
     money -= 100;
     state_placing = 0;

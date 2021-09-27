@@ -17,6 +17,12 @@ class tower {
     this.x = mouseX;
     this.y = mouseY;
   }
+
+  hitted() {
+    print('colliding?', hit);
+
+    
+  }
 }
 
 function preload() {
@@ -46,9 +52,11 @@ function draw() {
     image(testimage, block.x, block.y);
     fill(0, 255, 0, 100);
     circle(block.x, block.y, 100);
-    hit = collidePointCircle(mouseX, mouseY, 200, 200, 100);
-    stroke(hit ? color("red") : 0);
-    print("colliding?", hit);
+
+    
+    hit = collidePointCircle(mouseX, mouseY, block.x, block.y, 100);
+    
+    block.hitted();
   }
   textSize(100);
   fill(0);
