@@ -1,6 +1,6 @@
 // First Grid Example
 
-let gridSize =  10;
+let gridSize =  100;
 let grid;
 
 function setup() {
