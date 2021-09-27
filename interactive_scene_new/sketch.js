@@ -28,7 +28,7 @@ let y = 0;
 let addHealth = 0;
 
 // tower related stuff
-let money = 10000;
+let money = 100;
 let state_placing = 0;
 let hit = false;
 let towers = [];
