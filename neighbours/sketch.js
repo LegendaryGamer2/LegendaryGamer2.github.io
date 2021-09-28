@@ -22,16 +22,17 @@ function draw() {
 
 
 function mousePressed(){
-  let cellx = Math.floor(mouseX/cellsize);
-  let celly = Math.floor(mouseY/cellsize);
+  if (mouseX <= width && mouseY <= height){
+    let cellx = Math.floor(mouseX/cellsize);
+    let celly = Math.floor(mouseY/cellsize);
 
-  swap(cellx, celly);
-  swap(cellx, celly-1);
-  swap(cellx, celly+1);
-  swap(cellx-1, celly);
-  swap(cellx+1, celly);
+    swap(cellx, celly);
+    swap(cellx, celly-1);
+    swap(cellx, celly+1);
+    swap(cellx-1, celly);
+    swap(cellx+1, celly);
+  }
 }
-
 function swap(x, y) {
   if (x >= 0 && x < gridDimensions && y >= 0 && y < gridDimensions){
   
