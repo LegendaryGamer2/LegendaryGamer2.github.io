@@ -1,8 +1,9 @@
 // Grid Neighbours
 
-let gridDimensions = 15;
+let gridDimensions = 100;
 let grid;
 let cellsize;
+let autoPlay = false;
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -16,8 +17,12 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(255);
+  noStroke(); // used to make larger grids that are easily visible
   displayGrid();
+  if (autoPlay) {
+    update();
+  }
 }
 
 
@@ -31,6 +36,9 @@ function keyPressed() {
   }
   if (key === " ") {
     update();
+  }
+  if (key === "p"){
+    autoPlay = !autoPlay;
   }
 }
 
