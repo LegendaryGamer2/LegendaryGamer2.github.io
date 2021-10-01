@@ -54,18 +54,16 @@ function draw() {
   background(220);
   displayGrid();
   createEnemy();
-  for (let b in balls){
-    let cellx = Math.floor(b.x/cellsize);
-    let celly = Math.floor(b.y/cellsize);
-    swap(cellx, celly);
-  }
+
 }
 
 function createEnemy() {
   for (let ball of balls) {
     ball.circleCreator();
     ball.movement();
-    
+    let cellx = Math.floor(ball.x/cellsize);
+    let celly = Math.floor(ball.y/cellsize);
+    swap(cellx, celly);
   }
 }
 // function mousePressed(){
@@ -114,13 +112,8 @@ function createRandomArray(howLarge) {
   for (let y = 0; y < howLarge; y++){
     newArray.push([]);
     for (let x = 0; x < howLarge; x++){
-      if (random(0,100) > 50){
-        newArray[y].push(0);
-      }
-    
-      else {
-        newArray[y].push(1);
-      }
+
+      newArray[y].push(0);
     }
   }
   return newArray;
