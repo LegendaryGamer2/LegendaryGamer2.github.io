@@ -54,6 +54,11 @@ function draw() {
   background(220);
   displayGrid();
   createEnemy();
+  for (let b in balls){
+    let cellx = Math.floor(b.x/cellsize);
+    let celly = Math.floor(b.y/cellsize);
+    swap(cellx, celly);
+  }
 }
 
 function createEnemy() {
@@ -64,20 +69,18 @@ function createEnemy() {
   }
 }
 // function mousePressed(){
+//   if (mouseX <= width && mouseY <= height){
+//     let cellx = Math.floor(mouseX/cellsize);
+//     let celly = Math.floor(mouseY/cellsize);
 
-
-//   // swap(cellx, celly);
-//   // swap(cellx, celly-1);
-//   // swap(cellx, celly+1);
-//   // swap(cellx-1, celly);
-//   // swap(cellx+1, celly);
+//     swap(cellx, celly);
+//     swap(cellx, celly-1);
+//     swap(cellx, celly+1);
+//     swap(cellx-1, celly);
+//     swap(cellx+1, celly);
+//   }
 // }
-function keyPressed() {
-  for (let b in balls){
-    let cellx = Math.floor(b.x/cellsize);
-    let celly = Math.floor(b.y/cellsize);
-  }
-}
+
 function swap(x, y) {
   if (x >= 0 && x < gridDimensions && y >= 0 && y < gridDimensions){
   
@@ -97,7 +100,7 @@ function displayGrid(){
         fill("white");
       }
       else if (grid[y][x] === 1){
-        fill("white");
+        fill("black");
       }
       rect(x *cellsize, y*cellsize, cellsize, cellsize);
     }
