@@ -18,16 +18,16 @@ class ball{
   }
   movement(){
     if (keyCode === LEFT_ARROW) {
-      this.x -= 10;
+      this.x -= 1;
     } 
     else if (keyCode === RIGHT_ARROW) {
-      this.x += 10;
+      this.x += 1;
     }
     else if (keyCode === UP_ARROW) {
-      this.y -= 10;
+      this.y -= 1;
     }
     else if (keyCode === DOWN_ARROW) {
-      this.y += 10;
+      this.y += 1;
     }
   }
 }
@@ -59,7 +59,7 @@ function draw() {
 function createEnemy() {
   for (let ball of balls) {
     ball.circleCreator();
-
+    ball.movement();
     
   }
 }
@@ -76,18 +76,6 @@ function keyPressed() {
   for (let b in balls){
     let cellx = Math.floor(b.x/cellsize);
     let celly = Math.floor(b.y/cellsize);
-    // if (keyCode === LEFT_ARROW) {
-    //   b.x -= 10;
-    // } 
-    // else if (keyCode === RIGHT_ARROW) {
-    //   b.x += 10;
-    // }
-    // else if (keyCode === UP_ARROW) {
-    //   b.y -= 10;
-    // }
-    // else if (keyCode === DOWN_ARROW) {
-    //   b.y += 10;
-    // }
   }
 }
 function swap(x, y) {
