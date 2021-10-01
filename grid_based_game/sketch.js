@@ -3,47 +3,10 @@
 let gridDimensions = 10;
 let grid;
 let cellsize;
-let x = 5;
-let y = 5;
-let i;
 
-class ball{
-  constructor(x, y ,r) {
-    this.x = x;
-    this.y = y;
-    this.r = r;
-  }
-  circleCreator() {
-    fill(255);
-    circle(this.x, this.y, this.r);
-  }
-  movement(){
-    if (keyCode === LEFT_ARROW) {
-      this.x -= 1;
-      // let cellx = Math.floor(this.x/cellsize);
-      // let celly = Math.floor(this.y/cellsize);
-      // window.setInterval(swap(cellx, celly), 1000);
-    } 
-    else if (keyCode === RIGHT_ARROW) {
-      this.x += 1;
-      // let cellx = Math.floor(this.x/cellsize);
-      // let celly = Math.floor(this.y/cellsize);
-      // window.setInterval(swap(cellx, celly), 1000);
-    }
-    else if (keyCode === UP_ARROW) {
-      this.y -= 1;
-      // let cellx = Math.floor(this.x/cellsize);
-      // let celly = Math.floor(this.y/cellsize);
-      // window.setInterval(swap(cellx, celly), 1000);
-    }
-    else if (keyCode === DOWN_ARROW) {
-      this.y += 1;
-      // let cellx = Math.floor(this.x/cellsize);
-      // let celly = Math.floor(this.y/cellsize);
-      // window.setInterval(swap(cellx, celly), 1000);
-    }
-  }
-}
+let playerX = 0;
+let playerY = 0;
+
 
 
 function setup() {
@@ -55,49 +18,59 @@ function setup() {
   }
   grid = createRandomArray(gridDimensions);
   cellsize = width / gridDimensions;
-  
-}
 
-let balls = [];
-for (i = 0; i < 1; i++) {
-  balls.push(new ball(100, 100, 7, 2));
+  // place player
+  grid[playerY][playerX] = 9;
 }
 
 function draw() {
   background(220);
-  frameRate(60);
   displayGrid();
-  createEnemy();
 }
 
-function createEnemy() {
-  for (let ball of balls) {
-    ball.circleCreator();
-    ball.movement();
-    let cellx = Math.floor(ball.x/cellsize);
-    let celly = Math.floor(ball.y/cellsize);
-    for(let i = 0; i !== 60; i ++){
-      swap(cellx, celly);
+
+function keyPressed() {
+  if (key === "w"){
+    tryMovingTo(playerX, playerY-1);
+  }
+  else if (key === "a"){
+    tryMovingTo(playerX-1, playerY);
+  }  
+  else if (key === "s"){
+    tryMovingTo(playerX, playerY+1);
+  }  
+  else if (key === "d"){
+    tryMovingTo(playerX+1, playerY);
+  }
+}
+
+function tryMovingTo(newX, newY){
+  // make sure you are on the grid
+  if (newX >= 0 && newY >=0 && newX < gridDimensions && newY < gridDimensions){
+    // check if new spot is empty
+    if (grid[newY][newX] === 0) {
+      // reset current spot to be empty
+      grid[playerY][playerX] = 0;
+
+      // move player
+      playerX = newX;
+      playerY = newY;
+
+      // put player back in grid
+      grid[newY][newX] = 9;
     }
-    i = 0;
   }
 }
 
 
+function mousePressed(){
+  if (mouseX <= width && mouseY <= height){
+    let cellx = Math.floor(mouseX/cellsize);
+    let celly = Math.floor(mouseY/cellsize);
 
-// function mousePressed(){
-//   if (mouseX <= width && mouseY <= height){
-//     let cellx = Math.floor(mouseX/cellsize);
-//     let celly = Math.floor(mouseY/cellsize);
-
-//     swap(cellx, celly);
-//     swap(cellx, celly-1);
-//     swap(cellx, celly+1);
-//     swap(cellx-1, celly);
-//     swap(cellx+1, celly);
-//   }
-// }
-
+    swap(cellx, celly);
+  }
+}
 function swap(x, y) {
   if (x >= 0 && x < gridDimensions && y >= 0 && y < gridDimensions){
   
@@ -119,6 +92,9 @@ function displayGrid(){
       else if (grid[y][x] === 1){
         fill("black");
       }
+      else if (grid[y][x] === 9){
+        fill("red");
+      }
       rect(x *cellsize, y*cellsize, cellsize, cellsize);
     }
   
@@ -133,6 +109,7 @@ function createRandomArray(howLarge) {
     for (let x = 0; x < howLarge; x++){
 
       newArray[y].push(0);
+
     }
   }
   return newArray;
