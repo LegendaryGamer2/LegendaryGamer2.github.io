@@ -6,8 +6,9 @@ let cellsize;
 
 let playerX = 0;
 let playerY = 0;
-
-
+let isPlace = false;
+let ranY = 0;
+let ranX = 0;
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -95,6 +96,9 @@ function displayGrid(){
       else if (grid[y][x] === 9){
         fill("red");
       }
+      else if (grid[y][x] === 6){
+        fill("green");
+      }
       rect(x *cellsize, y*cellsize, cellsize, cellsize);
     }
   
@@ -107,9 +111,15 @@ function createRandomArray(howLarge) {
   for (let y = 0; y < howLarge; y++){
     newArray.push([]);
     for (let x = 0; x < howLarge; x++){
-
       newArray[y].push(0);
 
+      if (isPlace === false){
+        ranY = random(0,9);
+        ranX = random(0,9);
+        newArray[ranY][ranX].push(6);
+        isPlace = true;
+        
+      }
     }
   }
   return newArray;
