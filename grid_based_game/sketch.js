@@ -6,6 +6,7 @@ let cellsize;
 let x = 5;
 let y = 5;
 let i;
+
 class ball{
   constructor(x, y ,r) {
     this.x = x;
@@ -19,15 +20,27 @@ class ball{
   movement(){
     if (keyCode === LEFT_ARROW) {
       this.x -= 1;
+      // let cellx = Math.floor(this.x/cellsize);
+      // let celly = Math.floor(this.y/cellsize);
+      // window.setInterval(swap(cellx, celly), 1000);
     } 
     else if (keyCode === RIGHT_ARROW) {
       this.x += 1;
+      // let cellx = Math.floor(this.x/cellsize);
+      // let celly = Math.floor(this.y/cellsize);
+      // window.setInterval(swap(cellx, celly), 1000);
     }
     else if (keyCode === UP_ARROW) {
       this.y -= 1;
+      // let cellx = Math.floor(this.x/cellsize);
+      // let celly = Math.floor(this.y/cellsize);
+      // window.setInterval(swap(cellx, celly), 1000);
     }
     else if (keyCode === DOWN_ARROW) {
       this.y += 1;
+      // let cellx = Math.floor(this.x/cellsize);
+      // let celly = Math.floor(this.y/cellsize);
+      // window.setInterval(swap(cellx, celly), 1000);
     }
   }
 }
@@ -52,9 +65,9 @@ for (i = 0; i < 1; i++) {
 
 function draw() {
   background(220);
+  frameRate(60);
   displayGrid();
   createEnemy();
-
 }
 
 function createEnemy() {
@@ -63,9 +76,15 @@ function createEnemy() {
     ball.movement();
     let cellx = Math.floor(ball.x/cellsize);
     let celly = Math.floor(ball.y/cellsize);
-    swap(cellx, celly);
+    for(let i = 0; i !== 60; i ++){
+      swap(cellx, celly);
+    }
+    i = 0;
   }
 }
+
+
+
 // function mousePressed(){
 //   if (mouseX <= width && mouseY <= height){
 //     let cellx = Math.floor(mouseX/cellsize);
