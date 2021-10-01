@@ -1,8 +1,15 @@
 // Grid Neighbours
 
-let gridDimensions = 4;
+let gridDimensions = 10;
 let grid;
 let cellsize;
+let level1;
+let playerX = 0;
+let playerY = 0;
+
+function preload() {
+  level1 = loadJSON("assets/level1.json");
+}
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -11,13 +18,51 @@ function setup() {
   else {
     createCanvas(windowWidth, windowWidth);
   }
-  grid = createRandomArray(gridDimensions);
+  // grid = createRandomArray(gridDimensions);
+  grid = level1;
   cellsize = width / gridDimensions;
+
+  // place player
+  grid[playerY][playerX] = 9;
 }
 
 function draw() {
   background(220);
   displayGrid();
+}
+
+
+function keyPressed() {
+  if (key === "w"){
+    tryMovingTo(playerX, playerY-1);
+  }
+  else if (key === "a"){
+    tryMovingTo(playerX-1, playerY);
+  }  
+  else if (key === "s"){
+    tryMovingTo(playerX, playerY+1);
+  }  
+  else if (key === "d"){
+    tryMovingTo(playerX+1, playerY);
+  }
+}
+
+function tryMovingTo(newX, newY){
+  // make sure you are on the grid
+  if (newX >= 0 && newY >=0 && newX < gridDimensions && newY < gridDimensions){
+    // check if new spot is empty
+    if (grid[newY][newX] === 0) {
+      // reset current spot to be empty
+      grid[playerY][playerX] = 0;
+
+      // move player
+      playerX = newX;
+      playerY = newY;
+
+      // put player back in grid
+      grid[newY][newX] = 9;
+    }
+  }
 }
 
 
@@ -27,10 +72,6 @@ function mousePressed(){
     let celly = Math.floor(mouseY/cellsize);
 
     swap(cellx, celly);
-    swap(cellx, celly-1);
-    swap(cellx, celly+1);
-    swap(cellx-1, celly);
-    swap(cellx+1, celly);
   }
 }
 function swap(x, y) {
@@ -53,6 +94,9 @@ function displayGrid(){
       }
       else if (grid[y][x] === 1){
         fill("black");
+      }
+      else if (grid[y][x] === 9){
+        fill("red");
       }
       rect(x *cellsize, y*cellsize, cellsize, cellsize);
     }
