@@ -9,8 +9,11 @@ let playerY = 0;
 let isPlace = false;
 let ranY = 0;
 let ranX = 0;
+let oldPlayerX = 0;
+let oldPlayerY = 0;
+let occupied = false;
 
-let snakeBody = [{x: playerX, y:playerY}];
+let snakeBody = [];
 
 
 function setup() {
@@ -32,9 +35,9 @@ function draw() {
   displayGrid();
   if(isPlace === false){
     newApple();
-    if(ranX === playerX && playerY === ranY){
-      isPlace = false;
-    }
+    isPlace = false;
+    
+    
   }
 }
 
@@ -54,6 +57,16 @@ function keyPressed() {
   }
 }
 
+function spawnSnake(oldX, oldY){
+  let newSnakeBody = {
+    x: oldX,
+    y: oldY,
+
+
+  };
+  snakeBody.push(newSnakeBody);
+}
+
 function tryMovingTo(newX, newY){
   // make sure you are on the grid
   if (newX >= 0 && newY >=0 && newX < gridDimensions && newY < gridDimensions){
@@ -71,10 +84,14 @@ function tryMovingTo(newX, newY){
     }
     else if(grid[newY][newX] === 6){
       grid[playerY][playerX] = 9;
+      oldPlayerX = playerX;
+      oldPlayerY = playerY;
 
       playerX = newX;
       playerY = newY;
       grid[newY][newX] = 9;
+      spawnSnake(oldPlayerX, oldPlayerY);
+      isPlace = false;
     }
   }
 }
@@ -108,6 +125,9 @@ function swap2(x, y) {
   
     if (grid[y][x] === 0){
       grid[y][x] = 6;
+    }
+    else if (grid[y][x] === 9){
+      occupied = true;
     }
   }
 }
@@ -148,10 +168,18 @@ function createRandomArray(howLarge) {
 }
 function newApple() {
 
-  ranY = random(0,9);
-  ranX = random(0,9);
-  ranY = Math.round(ranY);
-  ranX = Math.round(ranX);
+  // errror correcting
+  while (occupied){
+    ranY = random(0,9);
+    ranX = random(0,9);
+    ranY = Math.round(ranY);
+    ranX = Math.round(ranX);
+    console.log(ranX, ranY);
+    if (grid[ranY][ranX] === 0){
+      occupied = false;
+      
+    }
+  }
 
   swap2(ranX, ranY);
   isPlace = true;
