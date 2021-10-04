@@ -16,7 +16,14 @@ let gridDimensions = 9;
 let cellSize;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  if (windowWidth > windowHeight){
+    createCanvas(windowHeight, windowHeight);
+  }
+  else {
+    createCanvas(windowWidth, windowWidth);
+  }
+
+  cellSize = width/gridDimensions;
 }
 
 function draw() {
