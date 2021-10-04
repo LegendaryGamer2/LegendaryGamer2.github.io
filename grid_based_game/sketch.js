@@ -27,6 +27,9 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
+  if(isPlace === false){
+    newApple();
+  }
 }
 
 
@@ -84,6 +87,15 @@ function swap(x, y) {
   }
 }
 
+function swap2(x, y) {
+  if (x >= 0 && x < gridDimensions && y >= 0 && y < gridDimensions){
+  
+    if (grid[y][x] === 0){
+      grid[y][x] = 6;
+    }
+  }
+}
+
 function displayGrid(){
   for (let y=0; y < gridDimensions; y ++){
     for (let x=0; x < gridDimensions; x++){
@@ -111,22 +123,22 @@ function createRandomArray(howLarge) {
   for (let y = 0; y < howLarge; y++){
     newArray.push([]);
     for (let x = 0; x < howLarge; x++){
-
       newArray[y].push(0);
-
-      if (isPlace === false){
-        ranY = random(0,9);
-        ranX = random(0,9);
-        ranY = Math.round(ranY);
-        ranX = Math.round(ranX);
-        if (ranX === x && ranY === y){
-          newArray[y].push(6);
-          console.log(newArray);
-          isPlace = true;
-        }
-      }
     }
+    return newArray;
+    
   }
-  return newArray;
+}
+function newApple() {
 
+  ranY = random(0,9);
+  ranX = random(0,9);
+  ranY = Math.round(ranY);
+  ranX = Math.round(ranX);
+
+  swap2(ranX, ranY);
+  isPlace = true;
+      
+    
+  
 }
