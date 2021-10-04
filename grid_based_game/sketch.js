@@ -111,14 +111,19 @@ function createRandomArray(howLarge) {
   for (let y = 0; y < howLarge; y++){
     newArray.push([]);
     for (let x = 0; x < howLarge; x++){
+
       newArray[y].push(0);
 
       if (isPlace === false){
         ranY = random(0,9);
         ranX = random(0,9);
-        newArray[ranY][ranX].push(6);
-        isPlace = true;
-        
+        ranY = Math.round(ranY);
+        ranX = Math.round(ranX);
+        if (ranX === x && ranY === y){
+          newArray[y].push(6);
+          console.log(newArray);
+          isPlace = true;
+        }
       }
     }
   }
