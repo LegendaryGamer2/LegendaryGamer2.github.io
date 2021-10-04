@@ -27,9 +27,9 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
-  if(isPlace === false){
-    newApple();
-  }
+  // if(isPlace === false){
+  //   newApple();
+  // }
 }
 
 
@@ -123,22 +123,23 @@ function createRandomArray(howLarge) {
   for (let y = 0; y < howLarge; y++){
     newArray.push([]);
     for (let x = 0; x < howLarge; x++){
+
       newArray[y].push(0);
+
     }
-    return newArray;
-    
   }
+  return newArray;
 }
-function newApple() {
+// function newApple() {
 
-  ranY = random(0,9);
-  ranX = random(0,9);
-  ranY = Math.round(ranY);
-  ranX = Math.round(ranX);
+//   ranY = random(0,9);
+//   ranX = random(0,9);
+//   ranY = Math.round(ranY);
+//   ranX = Math.round(ranX);
 
-  swap2(ranX, ranY);
-  isPlace = true;
+//   swap2(ranX, ranY);
+//   isPlace = true;
       
     
   
-}
+// }
