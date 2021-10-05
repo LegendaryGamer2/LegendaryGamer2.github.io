@@ -15,7 +15,17 @@ let occupied = false;
 
 let snakeBody = [];
 
+class snakebody {
+  constructor(x, y){
+    this.x = x;
+    this.y = y;
+  }
 
+
+
+
+
+}
 function setup() {
   if (windowWidth > windowHeight){
     createCanvas(windowHeight, windowHeight);
@@ -27,13 +37,16 @@ function setup() {
   cellsize = width / gridDimensions;
 
   // place player
-  grid[playerY][playerX] = 9;
-  spawnSnake(0, 0);
+
+  spawnSnake(5, 5);
 }
 
 function draw() {
   background(220);
   displayGrid();
+  for(let snakes of snakeBody){
+    grid[snakes.y][snakes.x] = 9;
+  }
   if(isPlace === false){
     newApple();
     isPlace = false;
@@ -44,42 +57,24 @@ function draw() {
 
 
 function keyPressed() {
-  for (let snake in snakeBody){
-    if (key === "w"){
-      tryMovingTo(snake.x, snake.y-1);
-    }
-    else if (key === "a"){
-      tryMovingTo(snake.x-1, snake.y);
-    }  
-    else if (key === "s"){
-      tryMovingTo(snake.x, snake.y+1);
-    }  
-    else if (key === "d"){
-      tryMovingTo(snake.x+1, snake.y);
-    }
-  }
+
   if (key === "w"){
-    tryMovingTo(playerX, playerY-1);
+    tryMovingTo(snakeBody[0].x, snakeBody[0].y-1);
   }
   else if (key === "a"){
-    tryMovingTo(playerX-1, playerY);
+    tryMovingTo(snakeBody[0].x-1, snakeBody[0].y);
   }  
   else if (key === "s"){
-    tryMovingTo(playerX, playerX+1);
+    tryMovingTo(snakeBody[0].x, snakeBody[0].y+1);
   }  
   else if (key === "d"){
-    tryMovingTo(playerX+1, playerY);
+    tryMovingTo(snakeBody[0].x+1, snakeBody[0].y);
   }
+  
 }
 
 function spawnSnake(oldX, oldY){
-  let newSnakeBody = {
-    x: oldX,
-    y: oldY,
-
-
-  };
-  snakeBody.push(newSnakeBody);
+  snakeBody.push(snakebody);
 }
 
 function tryMovingTo(newX, newY){
@@ -88,24 +83,23 @@ function tryMovingTo(newX, newY){
     // check if new spot is empty
     if (grid[newY][newX] === 0) {
       // reset current spot to be empty
-      grid[playerY][playerX] = 0;
+      grid[snakeBody[0].y][snakeBody[0].x] = 0;
 
       // move player
-      playerX = newX;
-      playerY = newY;
+      snakeBody[0].x = newX;
+      snakeBody[0].y = newY;
 
       // put player back in grid
       grid[newY][newX] = 9;
     }
-    else if(grid[newY][newX] === 6){
-      grid[playerY][playerX] = 9;
-      oldPlayerX = playerX;
-      oldPlayerY = playerY;
 
-      playerX = newX;
-      playerY = newY;
+    else if(grid[newY][newX] === 6){
+      grid[snakeBody[0].y][snakeBody[0].x] = 9;
+
+      snakeBody[0].x = newX;
+      snakeBody[0].y = newY;
       grid[newY][newX] = 9;
-      spawnSnake(oldPlayerX, oldPlayerY);
+      spawnSnake(playerX, playerY);
       isPlace = false;
     }
   }
@@ -118,6 +112,7 @@ function mousePressed(){
     let celly = Math.floor(mouseY/cellsize);
 
     swap(cellx, celly);
+    swap2(cellx, celly);
   }
 }
 
@@ -143,6 +138,8 @@ function swap2(x, y) {
     }
     else if (grid[y][x] === 9){
       occupied = true;
+      grid[y][x] = 0;
+      
     }
   }
 }
@@ -189,7 +186,6 @@ function newApple() {
     ranX = random(0,9);
     ranY = Math.round(ranY);
     ranX = Math.round(ranX);
-    console.log(ranX, ranY);
     if (grid[ranY][ranX] === 0){
       occupied = false;
       
@@ -198,7 +194,7 @@ function newApple() {
 
   swap2(ranX, ranY);
   isPlace = true;
-  console.log(ranX, ranY);
+
     
   
 }
