@@ -12,6 +12,7 @@ let ranX = 0;
 let oldPlayerX = 0;
 let oldPlayerY = 0;
 let occupied = false;
+let usedX, usedY = 0;
 
 let snakeBody = [];
 
@@ -21,11 +22,25 @@ class snakebody {
     this.y = y;
   }
 
-
-
-
+  move(){
+    if (key === "w"){
+      tryMovingTo(this.x, this.y-1);
+    }
+    else if (key === "a"){
+      tryMovingTo(this.x-1, this.y);
+    }  
+    else if (key === "s"){
+      tryMovingTo(this.x, this.y+1);
+    }  
+    else if (key === "d"){
+      tryMovingTo(this.x+1, this.y);
+    }
+  }
 
 }
+
+snakeBody.push(new snakebody(5, 5));
+
 function setup() {
   if (windowWidth > windowHeight){
     createCanvas(windowHeight, windowHeight);
@@ -38,7 +53,7 @@ function setup() {
 
   // place player
 
-  spawnSnake(5, 5);
+
 }
 
 function draw() {
@@ -46,7 +61,9 @@ function draw() {
   displayGrid();
   for(let snakes of snakeBody){
     grid[snakes.y][snakes.x] = 9;
+    
   }
+  snakeBody[0].move();
   if(isPlace === false){
     newApple();
     isPlace = false;
@@ -56,22 +73,22 @@ function draw() {
 }
 
 
-function keyPressed() {
+// function keyPressed() {
 
-  if (key === "w"){
-    tryMovingTo(snakeBody[0].x, snakeBody[0].y-1);
-  }
-  else if (key === "a"){
-    tryMovingTo(snakeBody[0].x-1, snakeBody[0].y);
-  }  
-  else if (key === "s"){
-    tryMovingTo(snakeBody[0].x, snakeBody[0].y+1);
-  }  
-  else if (key === "d"){
-    tryMovingTo(snakeBody[0].x+1, snakeBody[0].y);
-  }
+//   if (key === "w"){
+//     tryMovingTo(snakeBody[0].x, snakeBody[0].y-1);
+//   }
+//   else if (key === "a"){
+//     tryMovingTo(snakeBody[0].x-1, snakeBody[0].y);
+//   }  
+//   else if (key === "s"){
+//     tryMovingTo(snakeBody[0].x, snakeBody[0].y+1);
+//   }  
+//   else if (key === "d"){
+//     tryMovingTo(snakeBody[0].x+1, snakeBody[0].y);
+//   }
   
-}
+// }
 
 function spawnSnake(oldX, oldY){
   snakeBody.push(snakebody);
@@ -95,6 +112,8 @@ function tryMovingTo(newX, newY){
 
     else if(grid[newY][newX] === 6){
       grid[snakeBody[0].y][snakeBody[0].x] = 9;
+      snakeBody[0].x = usedX;
+      snakeBody[0].y = usedY;
 
       snakeBody[0].x = newX;
       snakeBody[0].y = newY;
@@ -138,7 +157,6 @@ function swap2(x, y) {
     }
     else if (grid[y][x] === 9){
       occupied = true;
-      grid[y][x] = 0;
       
     }
   }
