@@ -28,6 +28,7 @@ function setup() {
 
   // place player
   grid[playerY][playerX] = 9;
+  spawnSnake(0, 0);
 }
 
 function draw() {
@@ -43,17 +44,19 @@ function draw() {
 
 
 function keyPressed() {
-  if (key === "w"){
-    tryMovingTo(playerX, playerY-1);
-  }
-  else if (key === "a"){
-    tryMovingTo(playerX-1, playerY);
-  }  
-  else if (key === "s"){
-    tryMovingTo(playerX, playerY+1);
-  }  
-  else if (key === "d"){
-    tryMovingTo(playerX+1, playerY);
+  for (let snake in snakeBody){
+    if (key === "w"){
+      tryMovingTo(snake.x, snake.y-1);
+    }
+    else if (key === "a"){
+      tryMovingTo(snake.x-1, snake.y);
+    }  
+    else if (key === "s"){
+      tryMovingTo(snake.x, snake.y+1);
+    }  
+    else if (key === "d"){
+      tryMovingTo(snake.x+1, snake.y);
+    }
   }
 }
 
