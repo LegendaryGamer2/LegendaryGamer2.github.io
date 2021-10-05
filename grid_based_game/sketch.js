@@ -58,6 +58,18 @@ function keyPressed() {
       tryMovingTo(snake.x+1, snake.y);
     }
   }
+  if (key === "w"){
+    tryMovingTo(playerX, playerY-1);
+  }
+  else if (key === "a"){
+    tryMovingTo(playerX-1, playerY);
+  }  
+  else if (key === "s"){
+    tryMovingTo(playerX, playerX+1);
+  }  
+  else if (key === "d"){
+    tryMovingTo(playerX+1, playerY);
+  }
 }
 
 function spawnSnake(oldX, oldY){
