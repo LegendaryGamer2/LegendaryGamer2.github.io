@@ -36,7 +36,6 @@ class snakebody {
       tryMovingTo(this.x+1, this.y);
     }
   }
-
 }
 
 snakeBody.push(new snakebody(5, 5));
@@ -61,9 +60,8 @@ function draw() {
   displayGrid();
   for(let snakes of snakeBody){
     grid[snakes.y][snakes.x] = 9;
-    
   }
-  snakeBody[0].move();
+  
   if(isPlace === false){
     newApple();
     isPlace = false;
@@ -73,25 +71,13 @@ function draw() {
 }
 
 
-// function keyPressed() {
+function keyPressed() {
+  snakeBody[0].move();
 
-//   if (key === "w"){
-//     tryMovingTo(snakeBody[0].x, snakeBody[0].y-1);
-//   }
-//   else if (key === "a"){
-//     tryMovingTo(snakeBody[0].x-1, snakeBody[0].y);
-//   }  
-//   else if (key === "s"){
-//     tryMovingTo(snakeBody[0].x, snakeBody[0].y+1);
-//   }  
-//   else if (key === "d"){
-//     tryMovingTo(snakeBody[0].x+1, snakeBody[0].y);
-//   }
-  
-// }
+}
 
 function spawnSnake(oldX, oldY){
-  snakeBody.push(snakebody);
+  snakeBody.push(new snakebody(oldX, oldY));
 }
 
 function tryMovingTo(newX, newY){
@@ -131,7 +117,7 @@ function mousePressed(){
     let celly = Math.floor(mouseY/cellsize);
 
     swap(cellx, celly);
-    swap2(cellx, celly);
+    // swap2(cellx, celly);
   }
 }
 
