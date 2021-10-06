@@ -72,8 +72,9 @@ function draw() {
 
 
 function keyPressed() {
-  snakeBody[0].move();
 
+  snakeBody[0].move();
+  
 }
 
 function spawnSnake(oldX, oldY){
@@ -86,25 +87,28 @@ function tryMovingTo(newX, newY){
     // check if new spot is empty
     if (grid[newY][newX] === 0) {
       // reset current spot to be empty
-      grid[snakeBody[0].y][snakeBody[0].x] = 0;
-
-      // move player
-      snakeBody[0].x = newX;
-      snakeBody[0].y = newY;
-
-      // put player back in grid
+      for (let i of snakeBody){
+        grid[snakeBody[i].y][snakeBody[i].x] = 0;
+        snakeBody[i].x = newX;
+        snakeBody[i].y = newY;
+        // move player
+        snakeBody[i].x = newX;
+        snakeBody[i].y = newY;
+  
+        // put player back in grid
+      }
       grid[newY][newX] = 9;
     }
 
     else if(grid[newY][newX] === 6){
       grid[snakeBody[0].y][snakeBody[0].x] = 9;
-      snakeBody[0].x = usedX;
-      snakeBody[0].y = usedY;
+      usedX = snakeBody[0].x;
+      usedY = snakeBody[0].y;
 
       snakeBody[0].x = newX;
       snakeBody[0].y = newY;
       grid[newY][newX] = 9;
-      spawnSnake(playerX, playerY);
+      spawnSnake(usedX, usedY);
       isPlace = false;
     }
   }
