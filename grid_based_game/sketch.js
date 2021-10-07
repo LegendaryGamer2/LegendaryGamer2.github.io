@@ -88,12 +88,10 @@ function tryMovingTo(newX, newY){
     if (grid[newY][newX] === 0) {
       // reset current spot to be empty
       for (let i of snakeBody){
-        grid[snakeBody[i].y][snakeBody[i].x] = 0;
-        snakeBody[i].x = newX;
-        snakeBody[i].y = newY;
+        grid[i.y][i.x] = 0;
         // move player
-        snakeBody[i].x = newX;
-        snakeBody[i].y = newY;
+        i.x = newX;
+        i.y = newY;
   
         // put player back in grid
       }
