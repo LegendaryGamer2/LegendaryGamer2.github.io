@@ -13,32 +13,59 @@ let oldPlayerX = 0;
 let oldPlayerY = 0;
 let occupied = false;
 let usedX, usedY = 0;
+let movespot;
 
+let movement = [];
 let snakeBody = [];
 
 class snakebody {
   constructor(x, y){
     this.x = x;
     this.y = y;
+
   }
 
   move(){
     if (key === "w"){
       tryMovingTo(this.x, this.y-1);
+      console.log("up");
+      movement.push(0);
     }
     else if (key === "a"){
       tryMovingTo(this.x-1, this.y);
+      console.log("left");
+      movement.push(1);
     }  
     else if (key === "s"){
       tryMovingTo(this.x, this.y+1);
+      console.log("down");
+      movement.push(2);
     }  
     else if (key === "d"){
+      tryMovingTo(this.x+1, this.y);
+      console.log("right");
+      movement.push(3);
+    }
+  }
+
+  movementTo(ar){
+    if (ar === 0){
+      tryMovingTo(this.x, this.y-1);
+    }
+    if (ar === 1){
+      tryMovingTo(this.x-1, this.y);
+    }
+    if (ar === 2){
+      tryMovingTo(this.x, this.y+1);
+    }
+    if (ar === 3){
       tryMovingTo(this.x+1, this.y);
     }
   }
 }
 
 snakeBody.push(new snakebody(5, 5));
+snakeBody.push(new snakebody(5, 4));
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -49,7 +76,7 @@ function setup() {
   }
   grid = createRandomArray(gridDimensions);
   cellsize = width / gridDimensions;
-
+  
   // place player
 
 
@@ -72,9 +99,9 @@ function draw() {
 
 
 function keyPressed() {
-
-  snakeBody[0].move();
-  
+  for(let j of snakeBody){
+    j.move();
+  }
 }
 
 function spawnSnake(oldX, oldY){
@@ -88,39 +115,34 @@ function tryMovingTo(newX, newY){
     if (grid[newY][newX] === 0) {
       // reset current spot to be empty
       for (let i of snakeBody){
-        if (snakeBody.length >= 2){
-          grid[snakeBody[1].y][snakeBody[1].x] = 0;
-          for (let yx = 0; yx < snakeBody.length; yx++){
-            console.log(snakeBody[yx]);
-          }
-        }
-        else{
-          grid[i.y][i.x] = 0;
-          i.x = newX;
-          i.y = newY;
-        }
-        // move player
-
-  
-        // put player back in grid
+        movespot = movement.pop;
+        grid[i.y][i.x] = 9;
+        i.movementTo(movespot);
+        console.log(i.x,i.y);
+        snakeBody[0].x = newX;
+        snakeBody[0].y = newY;
       }
-      grid[newY][newX] = 9;
-    }
+      // move player
 
-    else if(grid[newY][newX] === 6){
-      grid[snakeBody[0].y][snakeBody[0].x] = 9;
-
-      usedX = snakeBody[0].x;
-      usedY = snakeBody[0].y;
-
-      snakeBody[0].x = newX;
-      snakeBody[0].y = newY;
-      grid[newY][newX] = 9;
-      spawnSnake(usedX, usedY);
-      isPlace = false;
+      // put player back in grid
+      
     }
   }
+
+  else if(grid[newY][newX] === 6){
+    grid[snakeBody[0].y][snakeBody[0].x] = 9;
+
+    usedX = snakeBody[0].x;
+    usedY = snakeBody[0].y;
+
+    snakeBody[0].x = newX;
+    snakeBody[0].y = newY;
+    grid[newY][newX] = 9;
+    spawnSnake(usedX, usedY);
+    isPlace = false;
+  }
 }
+
 
 
 function mousePressed(){
