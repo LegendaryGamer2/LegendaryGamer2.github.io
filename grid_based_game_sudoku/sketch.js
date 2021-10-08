@@ -1,5 +1,9 @@
-// Sudoku Text File Demo
-
+// Sudoku + Randomizer
+// Ali Ahmed
+// Date
+//
+// Extra for Experts:
+// - describe what you did to take this project "above and beyond"
 let initialGrid;
 
 let grid;
