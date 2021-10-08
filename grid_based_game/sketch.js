@@ -88,10 +88,19 @@ function tryMovingTo(newX, newY){
     if (grid[newY][newX] === 0) {
       // reset current spot to be empty
       for (let i of snakeBody){
-        grid[i.y][i.x] = 0;
+        if (snakeBody.length >= 2){
+          grid[snakeBody[1].y][snakeBody[1].x] = 0;
+          for (let yx = 0; yx < snakeBody.length; yx++){
+            console.log(snakeBody[yx]);
+          }
+        }
+        else{
+          grid[i.y][i.x] = 0;
+          i.x = newX;
+          i.y = newY;
+        }
         // move player
-        i.x = newX;
-        i.y = newY;
+
   
         // put player back in grid
       }
@@ -100,6 +109,7 @@ function tryMovingTo(newX, newY){
 
     else if(grid[newY][newX] === 6){
       grid[snakeBody[0].y][snakeBody[0].x] = 9;
+
       usedX = snakeBody[0].x;
       usedY = snakeBody[0].y;
 
