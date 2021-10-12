@@ -10,8 +10,6 @@ let grid;
 let gridDimensions = 9;
 let cellSize;
 let gridInArray;
-let rows;
-let cols;
 function preload() {
   initialGrid = loadStrings("assets/level2.txt");
 }
@@ -53,10 +51,10 @@ function draw() {
 
 function mousePressed(){
   if (mouseX <= width && mouseY <= height){
-    let cellx = Math.floor(mouseX/cols);
-    let celly = Math.floor(mouseY/rows);
+    let cellx = Math.floor(mouseX/gridDimensions);
+    let celly = Math.floor(mouseY/gridDimensions);
 
-    console.log(cols, rows);
+    console.log(cellx, celly);
   }
 }
 
