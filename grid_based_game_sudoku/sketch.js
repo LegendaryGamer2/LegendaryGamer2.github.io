@@ -54,15 +54,15 @@ function draw() {
 // creates a buttton for inserting the number into the grid
 function buttonMake(){
   input = createInput();
-  input.size(10,10);
-  input.position(windowWidth/2, windowHeight/2);
+  input.size(100,50);
+  input.position(windowWidth/4-50, windowHeight/2);
   button = createButton("");
-  button.size(10,16);
-  button.position(windowWidth/2+5, windowHeight/2+10);
+  button.size(50,56);
+  button.position(windowWidth/4-100 , windowHeight/2);
   button.mousePressed(displayText);
 
-  greeting = createElement("h6","Insert Number");
-  greeting.position(windowWidth/2, windowHeight/2);
+  greeting = createElement("h2","Insert Number");
+  greeting.position(windowWidth/4-100, windowHeight/2-50);
 
   textAlign(CENTER);
   textSize(10);
