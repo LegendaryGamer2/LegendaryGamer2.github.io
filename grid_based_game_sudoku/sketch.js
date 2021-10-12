@@ -5,7 +5,8 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 let initialGrid;
-
+let input, button, greeting;
+let inputedNum;
 let grid;
 let gridDimensions = 9;
 let cellSize;
@@ -26,6 +27,7 @@ function setup() {
 
   grid = initialGrid;
   cellSize = width/gridDimensions;
+  
 }
 
 function convertedToIntGrid(initialGrid){
@@ -47,7 +49,41 @@ function convertedToIntGrid(initialGrid){
 function draw() {
   background(220);
   displayGrid();
+  buttonMake();
 }
+// creates a buttton for inserting the number into the grid
+function buttonMake(){
+  input = createInput();
+  input.size(10,10);
+  input.position(windowWidth/2, windowHeight/2);
+  button = createButton("");
+  button.size(10,16);
+  button.position(windowWidth/2+5, windowHeight/2+10);
+  button.mousePressed(displayText);
+
+  greeting = createElement("h6","Insert Number");
+  greeting.position(windowWidth/2, windowHeight/2);
+
+  textAlign(CENTER);
+  textSize(10);
+}
+// takes input and resets the text box to be empty
+function displayText(){
+  let name = input.value();
+  input.value("");
+  name = int(name);
+  
+  if (Number.isInteger(name) === true && name <=9){
+    console.log(name);
+  }
+  else if (Number.isInteger(name) === true && (name > 9 || name < 1)){
+    console.log("Please choose a number between 1 and 9");
+  }
+  else{
+    console.log("That is not a number please choose a number between 1 and 9");
+  }
+}
+
 
 function mousePressed(){
   if (mouseX <= width && mouseY <= height){

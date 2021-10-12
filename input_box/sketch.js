@@ -4,7 +4,23 @@ let inputedNum;
 function setup() {
   // create canvas
   createCanvas(400, 400);
+  buttonMake();
 
+}
+
+function displayText(){
+  let name = input.value();
+  input.value("");
+  name = int(name);
+  if (Number.isInteger(name) === true){
+    console.log(name);
+  }
+  else{
+    console.log("that is not a number");
+  }
+}
+
+function buttonMake(){
   input = createInput();
   input.size(10,10);
   input.position(width/4+20, height/4+10);
@@ -18,16 +34,4 @@ function setup() {
 
   textAlign(CENTER);
   textSize(10);
-}
-
-function displayText(){
-  let name = input.value();
-  input.value("");
-  name = int(name);
-  if (Number.isInteger(name) === true){
-    console.log(name);
-  }
-  else{
-    console.log("that is not a number");
-  }
 }
