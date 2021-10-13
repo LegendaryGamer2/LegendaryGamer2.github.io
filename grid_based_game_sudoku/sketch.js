@@ -27,7 +27,7 @@ function setup() {
 
   grid = initialGrid;
   cellSize = width/gridDimensions;
-  
+  buttonMake();
 }
 
 function convertedToIntGrid(initialGrid){
@@ -49,7 +49,7 @@ function convertedToIntGrid(initialGrid){
 function draw() {
   background(220);
   displayGrid();
-  buttonMake();
+  
 }
 // creates a buttton for inserting the number into the grid
 function buttonMake(){
