@@ -128,7 +128,7 @@ function displayGrid() {
 
 
 function drawCageLines() {
-  strokeWeight(2);
+  strokeWeight(5);
   for(let location = 0; location <= 9; location += 3){
     // horizontal lines
     line(0, location * cellSize, width, location* cellSize);
