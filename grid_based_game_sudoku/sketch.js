@@ -90,7 +90,8 @@ function mousePressed(){
     let cellx = Math.floor(mouseX/gridDimensions);
     let celly = Math.floor(mouseY/gridDimensions);
 
-    console.log(cellx, celly);
+    let h = grid[celly][cellx].pop();
+    
   }
 }
 
