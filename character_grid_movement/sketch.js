@@ -68,8 +68,8 @@ function tryMovingTo(newX, newY){
 
 function mousePressed(){
   if (mouseX <= width && mouseY <= height){
-    let cellx = Math.floor(mouseX/cellsize);
-    let celly = Math.floor(mouseY/cellsize);
+    let cellx = Math.floor(mouseX/cellsize) + 1;
+    let celly = Math.floor(mouseY/cellsize) + 1;
 
     swap(cellx, celly);
   }

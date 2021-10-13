@@ -5,28 +5,19 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let input, button, greeting;
+let input, button, numInput;
 let inputedNum;
 let grid;
 let gridDimensions = 9;
 let cellSize;
 let gridInArray;
+let initialGrid;
+let spot1, spot2;
 
-let initialGrid = [
-  [0, 2, 4, 3, 8, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 6, 0, 0, 7],
-  [0, 5, 8, 0, 0, 0, 4, 0, 0],
-  [4, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 7, 0, 5, 0, 0, 0],
-  [0, 0, 0, 0, 2, 0, 0, 0, 8],
-  [0, 0, 1, 0, 0, 0, 6, 7, 0],
-  [3, 0, 0, 5, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 4, 9, 2, 1, 0],
-];
 
-// function preload() {
-//   initialGrid = loadStrings("assets/level2.txt");
-// }
+function preload() {
+  initialGrid = loadStrings("assets/level2.txt");
+}
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -67,19 +58,21 @@ function draw() {
 // creates a buttton for inserting the number into the grid
 function buttonMake(){
   input = createInput();
-  input.size(100,50);
-  input.position(windowWidth/4-50, windowHeight/2);
-  button = createButton("");
-  button.size(50,56);
-  button.position(windowWidth/4-100 , windowHeight/2);
+  input.size(50,59);
+  input.position(windowWidth/2, windowHeight - cellSize);
+  button = createButton("Insert Number Between 1 And 9");
+  button.size(100,65);
+  button.position(windowWidth/2-100, windowHeight - cellSize);
   button.mousePressed(displayText);
 
-  greeting = createElement("h2","Insert Number");
-  greeting.position(windowWidth/4-100, windowHeight/2-50);
-
-  textAlign(CENTER);
-  textSize(10);
 }
+
+function keyPressed() {
+  if (keyCode === 13) {
+    displayText();
+  }
+}
+
 // takes input and resets the text box to be empty
 function displayText(){
   let name = input.value();
@@ -88,6 +81,7 @@ function displayText(){
   
   if (Number.isInteger(name) === true && name <=9){
     console.log(name);
+    initialGrid[spot1][spot2] = name;
   }
   else if (Number.isInteger(name) === true && (name > 9 || name < 1)){
     console.log("Please choose a number between 1 and 9");
@@ -100,16 +94,16 @@ function displayText(){
 
 function mousePressed(){
   if (mouseX <= width && mouseY <= height){
-    let cellx = Math.floor(mouseX/gridDimensions) - 1;
-    let celly = Math.floor(mouseY/gridDimensions) - 1;
+    let cellx = Math.floor(mouseX/cellSize);
+    let celly = Math.floor(mouseY/cellSize);
     console.log(cellx, celly);
     console.log(initialGrid[celly][cellx]);
+    spot1 = celly;
+    spot2 = cellx;
   }
 }
 
-function windowResized() {
-  setup();
-}
+
 
 function displayGrid() {
   for(let y = 0; y < gridDimensions; y ++){
