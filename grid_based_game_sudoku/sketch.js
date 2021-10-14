@@ -13,10 +13,14 @@ let cellSize;
 let gridInArray;
 let initialGrid;
 let spot1, spot2;
-
+let textDefault;
+let instructions;
+let placing = false;
+let finalGrid;
 
 function preload() {
   initialGrid = loadStrings("assets/level_intermediate_answer.txt");
+  finalGrid = loadStrings("assets/level_intermediate.txt");
 }
 
 function setup() {
@@ -65,8 +69,23 @@ function buttonMake(){
   button.position(windowWidth/2-100, windowHeight - cellSize);
   button.mousePressed(displayText);
 
+  textDefault = "Enter a number between 1 and 9";
+  
+ 
+  instructions = createElement("h1", textDefault);
+  instructions.position(20, height/2);
+  
 }
 
+function answerCorrectChecker(){
+  for (let y = 0; y < grid.length; y++){
+    for (let x = 0; x < grid[y].length; x++){
+      initialGrid[y][x];
+    }
+  }
+}
+
+// allows you to press enter key to enter number
 function keyPressed() {
   if (keyCode === 13) {
     displayText();
@@ -78,16 +97,18 @@ function displayText(){
   let name = input.value();
   input.value("");
   name = int(name);
-  
-  if (Number.isInteger(name) === true && name <=9){
-    console.log(name);
+  if (Number.isInteger(name) === true && name <=9 && placing){
     initialGrid[spot1][spot2] = name;
   }
-  else if (Number.isInteger(name) === true && (name > 9 || name < 1)){
-    console.log("Please choose a number between 1 and 9");
+  else if (Number.isInteger(name) === true && (name > 9 || name < 1) && placing){
+    instructions.html("Please choose a number between 1 and 9");
+  }
+  else if (Number.isInteger(name) === false && placing){
+    instructions.html("That is not a number please choose a number between 1 and 9");
+    
   }
   else{
-    console.log("That is not a number please choose a number between 1 and 9");
+    instructions.html("Please select a box to change the number in first then submit");
   }
 }
 
@@ -100,6 +121,7 @@ function mousePressed(){
     console.log(initialGrid[celly][cellx]);
     spot1 = celly;
     spot2 = cellx;
+    placing = true;
   }
 }
 
