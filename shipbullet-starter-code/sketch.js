@@ -12,16 +12,21 @@ let bullet;
 let bullets = [];
 let bullet1;
 let stop = 0;
+let shootSound;
+let bgMusic;
 
 function preload() {
   shipImage = loadImage("assets/enterprise.png");
   bulletImage = loadImage("assets/laser-shot.png");
+  shootSound = loadSound("assets/laser1.mp3");
+  bgMusic = loadSound("assets/OrbitalColossus.mp3");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   enterprise = new Ship(width / 2, height / 2, shipImage);
-  
+  bgMusic.setVolume(0.5);
+  bgMusic.loop();
 }
 
 function draw() {
