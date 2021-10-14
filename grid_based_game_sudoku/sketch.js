@@ -16,7 +16,7 @@ let spot1, spot2;
 
 
 function preload() {
-  initialGrid = loadStrings("assets/level2.txt");
+  initialGrid = loadStrings("assets/level_intermediate_answer.txt");
 }
 
 function setup() {
