@@ -17,10 +17,19 @@ let textDefault;
 let instructions;
 let placing = false;
 let finalGrid;
+let checkCorrect;
+let finalGridNumCheck;
+let gridNumCheck;
+let counter;
+let amountOfNumInGrid;
+let amountOfCorrect = 0;
+let timesChecked = 0;
+
 
 function preload() {
-  initialGrid = loadStrings("assets/level_intermediate_answer.txt");
-  finalGrid = loadStrings("assets/level_intermediate.txt");
+  // initialGrid = loadStrings("assets/level_intermediate.txt");
+  initialGrid = loadStrings("assets/level_intermediate_answer_copy.txt");
+  finalGrid = loadStrings("assets/level_intermediate_answer.txt");
 }
 
 function setup() {
@@ -30,12 +39,14 @@ function setup() {
   else {
     createCanvas(windowWidth * 0.8, windowWidth * 0.8);
   }
-
+  finalGrid = convertedToIntGrid(finalGrid);
   initialGrid = convertedToIntGrid(initialGrid);
 
   grid = initialGrid;
   cellSize = width/gridDimensions;
   buttonMake();
+
+  
 }
 
 function convertedToIntGrid(initialGrid){
@@ -57,8 +68,12 @@ function convertedToIntGrid(initialGrid){
 function draw() {
   background(220);
   displayGrid();
-  
+
+  answerCorrectChecker();
 }
+
+
+
 // creates a buttton for inserting the number into the grid
 function buttonMake(){
   input = createInput();
@@ -78,9 +93,32 @@ function buttonMake(){
 }
 
 function answerCorrectChecker(){
-  for (let y = 0; y < grid.length; y++){
-    for (let x = 0; x < grid[y].length; x++){
-      initialGrid[y][x];
+  let amountOfCorrect = 0;
+  let timesChecked = 0;
+  for (let y = 0; y < initialGrid.length; y++){
+    for (let x = 0; x < initialGrid[y].length; x++){
+      gridNumCheck = initialGrid[y][x];
+      finalGridNumCheck = finalGrid[y][x];
+
+     
+      
+      if (gridNumCheck === finalGridNumCheck){
+        
+        amountOfCorrect ++;
+        timesChecked++;
+       
+      }
+      else if(amountOfCorrect >= 81){
+        console.log("true");
+      }
+      else if (timesChecked === 81){
+        amountOfCorrect = 0;
+        timesChecked = 0;
+      }
+      else{
+        console.log(gridNumCheck, finalGridNumCheck, amountOfCorrect, timesChecked);
+        
+      }
     }
   }
 }
