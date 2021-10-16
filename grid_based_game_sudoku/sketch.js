@@ -24,7 +24,7 @@ let counter;
 let amountOfNumInGrid;
 let amountOfCorrect = 0;
 let timesChecked = 0;
-
+let hintClicked = true;
 
 function preload() {
   // initialGrid = loadStrings("assets/level_intermediate.txt");
@@ -88,7 +88,7 @@ function buttonMake(){
   
  
   instructions = createElement("h1", textDefault);
-  instructions.position(20, height/2);
+  instructions.position(width/10, height + height/7);
   
 }
 
@@ -102,23 +102,27 @@ function answerCorrectChecker(){
 
      
       
-      if (gridNumCheck === finalGridNumCheck){
-        
-        amountOfCorrect ++;
-        timesChecked++;
-       
+      if (gridNumCheck === finalGridNumCheck && amountOfCorrect <= 80){
+        if(amountOfCorrect >= 80){
+          instructions.html("You Win");
+        }
+        else{
+          amountOfCorrect ++;
+          timesChecked++;
+        }
       }
-      else if(amountOfCorrect >= 81){
-        console.log("true");
+      else if (hintClicked === true && gridNumCheck !== finalGridNumCheck){
+        fill("red");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+        fill("black");
+        text(grid[y][x], x * cellSize + cellSize/2, y * cellSize + cellSize/2);
       }
       else if (timesChecked === 81){
         amountOfCorrect = 0;
         timesChecked = 0;
       }
-      else{
-        console.log(gridNumCheck, finalGridNumCheck, amountOfCorrect, timesChecked);
         
-      }
+      
     }
   }
 }
