@@ -27,6 +27,10 @@ let timesChecked = 0;
 let hintClicked = true;
 let hintButton;
 let hint = false;
+let level = 0;
+let hintButtonText = "Hint";
+let instructions0;
+let setuping = 0;
 
 function preload() {
   // initialGrid = loadStrings("assets/level_intermediate.txt");
@@ -46,8 +50,7 @@ function setup() {
 
   grid = initialGrid;
   cellSize = width/gridDimensions;
-  buttonInput();
-  buttonHint();
+  
   
 }
 
@@ -68,16 +71,33 @@ function convertedToIntGrid(initialGrid){
 
 
 function draw() {
-  background(220);
-  displayGrid();
-  if (hint){
-    answerCorrectChecker(true);
+  if (level === 0){
+    instructions0 = createElement("h1", "Welcome to my Sudoku, press hint at the end to reach win screen after you solve it, and press spacebar to start");
+    instructions0.position(width/2, height/2);
+    instructions0.remove();
+  }
+  else if (level === 1){
+    if (setuping === 0){
+      buttonInput();
+      buttonHint();
+      setuping = 1;
+      
+    }
+
+    background(220);
+    displayGrid();
+    if (hint){
+      answerCorrectChecker(true);
+    }
+  }
+  else if (level === 2){
+    background(255);
   }
 }
 
 
 function buttonHint(){
-  hintButton = createButton("Hint");
+  hintButton = createButton(hintButtonText);
   hintButton.size(100, 65);
   hintButton.position(0, windowHeight/2);
   hintButton.mousePressed(hintButtonClicked);
@@ -85,8 +105,13 @@ function buttonHint(){
 
 function hintButtonClicked(){
   hint = true;
-  
+  window.setInterval(switchHintOff, 10000);
 }
+
+function switchHintOff(){
+  hint = false;
+}
+
 
 // creates a buttton for inserting the number into the grid
 function buttonInput(){
@@ -120,6 +145,11 @@ function answerCorrectChecker(hintClicked){
       if (gridNumCheck === finalGridNumCheck && amountOfCorrect <= 80){
         if(amountOfCorrect >= 80){
           instructions.html("You Win");
+          instructions.position(width/2, height/2);
+          level = 1;
+          hintButton.position(width * width, height * height);
+          button.remove();
+          input.remove();
         }
         else{
           amountOfCorrect ++;
@@ -146,6 +176,10 @@ function answerCorrectChecker(hintClicked){
 function keyPressed() {
   if (keyCode === 13) {
     displayText();
+  }
+  if (keyCode === 69){
+    instructions0.remove();
+    level = 1;
   }
 }
 
