@@ -25,6 +25,8 @@ let amountOfNumInGrid;
 let amountOfCorrect = 0;
 let timesChecked = 0;
 let hintClicked = true;
+let hintButton;
+let hint = false;
 
 function preload() {
   // initialGrid = loadStrings("assets/level_intermediate.txt");
@@ -44,8 +46,8 @@ function setup() {
 
   grid = initialGrid;
   cellSize = width/gridDimensions;
-  buttonMake();
-
+  buttonInput();
+  buttonHint();
   
 }
 
@@ -68,14 +70,26 @@ function convertedToIntGrid(initialGrid){
 function draw() {
   background(220);
   displayGrid();
-
-  answerCorrectChecker();
+  if (hint){
+    answerCorrectChecker(true);
+  }
 }
 
 
+function buttonHint(){
+  hintButton = createButton("Hint");
+  hintButton.size(100, 65);
+  hintButton.position(0, windowHeight/2);
+  hintButton.mousePressed(hintButtonClicked);
+}
+
+function hintButtonClicked(){
+  hint = true;
+  
+}
 
 // creates a buttton for inserting the number into the grid
-function buttonMake(){
+function buttonInput(){
   input = createInput();
   input.size(50,59);
   input.position(windowWidth/2, windowHeight - cellSize);
@@ -92,9 +106,10 @@ function buttonMake(){
   
 }
 
-function answerCorrectChecker(){
+function answerCorrectChecker(hintClicked){
   let amountOfCorrect = 0;
   let timesChecked = 0;
+  
   for (let y = 0; y < initialGrid.length; y++){
     for (let x = 0; x < initialGrid[y].length; x++){
       gridNumCheck = initialGrid[y][x];
@@ -111,7 +126,7 @@ function answerCorrectChecker(){
           timesChecked++;
         }
       }
-      else if (hintClicked === true && gridNumCheck !== finalGridNumCheck){
+      else if (hintClicked && gridNumCheck !== finalGridNumCheck){
         fill("red");
         rect(x * cellSize, y * cellSize, cellSize, cellSize);
         fill("black");
