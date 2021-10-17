@@ -1,9 +1,9 @@
-// Sudoku + Randomizer
+// Sudoku
 // Ali Ahmed
-// Date
+// 17/10/2021
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Added a button titled check to see which squares were incorrect
 
 let input, button, numInput;
 let inputedNum;
@@ -24,17 +24,24 @@ let counter;
 let amountOfNumInGrid;
 let amountOfCorrect = 0;
 let timesChecked = 0;
-let hintClicked = true;
-let hintButton;
-let hint = false;
+let checkClicked = false;
+let checkButton;
+let check = false;
 let level = 0;
-let hintButtonText = "Hint";
+let checkButtonText = "Check";
 let instructions0;
 let setuping = 0;
+let setup1 = 0;
+let diffucultySelector = 0;
+let diffucultySelected;
+let input1;
 
 function preload() {
-  // initialGrid = loadStrings("assets/level_intermediate.txt");
+  // uncomment out if you want to have almost complete grid and change bottom right number to 3 then hit check to finish game
   initialGrid = loadStrings("assets/level_intermediate_answer_copy.txt");
+
+  // Completed and incomplete sudoku
+  // initialGrid = loadStrings("assets/level_intermediate.txt");
   finalGrid = loadStrings("assets/level_intermediate_answer.txt");
 }
 
@@ -47,7 +54,7 @@ function setup() {
   }
   finalGrid = convertedToIntGrid(finalGrid);
   initialGrid = convertedToIntGrid(initialGrid);
-
+ 
   grid = initialGrid;
   cellSize = width/gridDimensions;
   
@@ -71,49 +78,57 @@ function convertedToIntGrid(initialGrid){
 
 
 function draw() {
+  // setting different stages of the game
+  
+  // Title Screen
   if (level === 0){
-    instructions0 = createElement("h1", "Welcome to my Sudoku, press hint at the end to reach win screen after you solve it, and press spacebar to start");
-    instructions0.position(width/2, height/2);
-    instructions0.remove();
+    if (setup1 === 0){
+      instructions0 = createElement("h1", "Welcome to my Sudoku, and press e to start, and you can press enter to submit the numbers you enter, press check to show inccorect squares in red for 10 seconds, and press check at the end to reach win screen after you solve it");
+      instructions0.position(0, height/2);
+      setup1 = 1;
+    }
   }
+  // Adding Buttons and actual game
   else if (level === 1){
     if (setuping === 0){
       buttonInput();
-      buttonHint();
+      buttoncheck();
       setuping = 1;
       
     }
 
     background(220);
     displayGrid();
-    if (hint){
+    if (check){
       answerCorrectChecker(true);
     }
   }
+  // End Screen
   else if (level === 2){
     background(255);
   }
 }
 
-
-function buttonHint(){
-  hintButton = createButton(hintButtonText);
-  hintButton.size(100, 65);
-  hintButton.position(0, windowHeight/2);
-  hintButton.mousePressed(hintButtonClicked);
+// Creating the check button
+function buttoncheck(){
+  checkButton = createButton(checkButtonText);
+  checkButton.size(100, 65);
+  checkButton.position(0, windowHeight/2);
+  checkButton.mousePressed(checkButtonClicked);
 }
 
-function hintButtonClicked(){
-  hint = true;
-  window.setInterval(switchHintOff, 10000);
+// Making it show you the incorrect square and then after 10 secondes it goes back to hinding checks with the switchcheckOff function
+function checkButtonClicked(){
+  check = true;
+  window.setInterval(switchcheckOff, 10000);
 }
 
-function switchHintOff(){
-  hint = false;
+function switchcheckOff(){
+  check = false;
 }
 
 
-// creates a buttton for inserting the number into the grid
+// creates a buttton and text box for inserting a number into the grid
 function buttonInput(){
   input = createInput();
   input.size(50,59);
@@ -122,68 +137,13 @@ function buttonInput(){
   button.size(100,65);
   button.position(windowWidth/2-100, windowHeight - cellSize);
   button.mousePressed(displayText);
-
   textDefault = "Enter a number between 1 and 9";
-  
- 
   instructions = createElement("h1", textDefault);
   instructions.position(width/10, height + height/7);
   
 }
 
-function answerCorrectChecker(hintClicked){
-  let amountOfCorrect = 0;
-  let timesChecked = 0;
-  
-  for (let y = 0; y < initialGrid.length; y++){
-    for (let x = 0; x < initialGrid[y].length; x++){
-      gridNumCheck = initialGrid[y][x];
-      finalGridNumCheck = finalGrid[y][x];
-
-     
-      
-      if (gridNumCheck === finalGridNumCheck && amountOfCorrect <= 80){
-        if(amountOfCorrect >= 80){
-          instructions.html("You Win");
-          instructions.position(width/2, height/2);
-          level = 1;
-          hintButton.position(width * width, height * height);
-          button.remove();
-          input.remove();
-        }
-        else{
-          amountOfCorrect ++;
-          timesChecked++;
-        }
-      }
-      else if (hintClicked && gridNumCheck !== finalGridNumCheck){
-        fill("red");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-        fill("black");
-        text(grid[y][x], x * cellSize + cellSize/2, y * cellSize + cellSize/2);
-      }
-      else if (timesChecked === 81){
-        amountOfCorrect = 0;
-        timesChecked = 0;
-      }
-        
-      
-    }
-  }
-}
-
-// allows you to press enter key to enter number
-function keyPressed() {
-  if (keyCode === 13) {
-    displayText();
-  }
-  if (keyCode === 69){
-    instructions0.remove();
-    level = 1;
-  }
-}
-
-// takes input and resets the text box to be empty
+// takes input and resets the text box to be empty and tells you if a number is allowed
 function displayText(){
   let name = input.value();
   input.value("");
@@ -203,13 +163,74 @@ function displayText(){
   }
 }
 
+// checking each square against the finished grid 
+function answerCorrectChecker(checkClicked){
+  let amountOfCorrect = 0;
+  let timesChecked = 0;
+  
+  for (let y = 0; y < initialGrid.length; y++){
+    for (let x = 0; x < initialGrid[y].length; x++){
+      gridNumCheck = initialGrid[y][x];
+      finalGridNumCheck = finalGrid[y][x];
+      
+     
+      // checking the current grid number against the final grid number and if it is fully correct it finishes the game after pressing the check button
+      if (gridNumCheck === finalGridNumCheck && amountOfCorrect <= 80){
+        if(amountOfCorrect >= 80){
+          instructions.html("You Win");
+          instructions.position(width/2, height/2);
+          level = 2;
+          checkButton.position(width * width, height * height);
+          button.remove();
+          input.remove();
+        }
+        else{
+          amountOfCorrect ++;
+          timesChecked++;
+        }
+      }
+      // if the check button is pressed it marks the inccorect grid in red
+      else if (checkClicked && gridNumCheck !== finalGridNumCheck){
+        fill("red");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+        fill("black");
+        text(grid[y][x], x * cellSize + cellSize/2, y * cellSize + cellSize/2);
+      }
+      // resets the square that is checked to 0 and starts again
+      else if (timesChecked === 81){
+        amountOfCorrect = 0;
+        timesChecked = 0;
+      }
+        
+      
+    }
+  }
+}
+
+// allows you to press enter key to enter number
+function keyPressed() {
+  // enter key to enter a number into the grid after putting a allowed number into the text box
+  if (keyCode === 13) {
+    if (level !== 2){
+      displayText();
+    }
+  }
+  // e key to start the game
+  if (keyCode === 69){
+    if (level === 0){
+      instructions0.remove();
+      level = 1;
+    }
+  }
+}
+
+
 
 function mousePressed(){
+  // selects the grid that will have the number changed
   if (mouseX <= width && mouseY <= height){
     let cellx = Math.floor(mouseX/cellSize);
     let celly = Math.floor(mouseY/cellSize);
-    console.log(cellx, celly);
-    console.log(initialGrid[celly][cellx]);
     spot1 = celly;
     spot2 = cellx;
     placing = true;
@@ -219,6 +240,7 @@ function mousePressed(){
 
 
 function displayGrid() {
+  // displays the grid and the number in it
   for(let y = 0; y < gridDimensions; y ++){
     for(let x = 0; x < gridDimensions; x++){
       
@@ -241,6 +263,7 @@ function displayGrid() {
 
 
 function drawCageLines() {
+  // draws the lines seperating the 3x3 squares
   strokeWeight(5);
   for(let location = 0; location <= 9; location += 3){
     // horizontal lines
