@@ -1,51 +1,49 @@
 // taken from this tutorial: https://github.com/b-g/p5-matter-examples
 
-const Engine = Matter.Engine;
-const Render = Matter.Render;
-const World = Matter.World;
-const Bodies = Matter.Bodies;
+const Engine = Matter.Engine,
+  Render = Matter.Render,
+  World = Matter.World,
+  Bodies = Matter.Bodies;
+  
 
 const drawBody = Helpers.drawBody;
 
 let engine;
 
-let boxA;
-let boxB;
+let ballA;
+let ballB;
+let ballC;
+let ballD;
 let ground;
+let myCar;
 
 function setup() {
   createCanvas(800, 600);
-
-  // create an engine
   engine = Engine.create();
 
-  // create two boxes and a ground
-  boxA = Bodies.rectangle(200, 200, 80, 80);
-  boxB = Bodies.rectangle(270, 50, 160, 80, {
-    isStatic: false
+  ballA = Bodies.circle(200, 100, 20);
+  ballB = Bodies.circle(300, 100, 20);
+  ballC = Bodies.circle(400, 100, 20);
+  ballD = Bodies.circle(500, 100, 20);
+  
+  ground = Bodies.rectangle(0, 400, windowWidth, 20,{
+    isStatic: true
   });
-  ground = Bodies.rectangle(400, 500, 810, 10, {
-    isStatic: true, angle: Math.PI * 0.1
-  });
 
-  // add all of the bodies to the world
-  World.add(engine.world, [boxA, boxB, ground]);
-
-  // run the engine
-  window.setInterval(rund, 1000);
-}
-
-function rund(){
+  World.add(engine.world, [ballA, ballB, ballC, ballD, ground]);
   Matter.Runner.run(engine);
 }
+
 
 function draw() {
   background(0);
 
   fill(255);
-  drawBody(boxA);
-  drawBody(boxB);
+  drawBody(ballA);
+  drawBody(ballB);
+  drawBody(ballC);
+  drawBody(ballD);
 
-  fill(128,0,0);
+  fill(255, 0, 0);
   drawBody(ground);
 }
