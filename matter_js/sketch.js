@@ -3,7 +3,7 @@ let Engine = Matter.Engine,
   World = Matter.World,
   Bodies = Matter.Bodies,
   Composites = Matter.Composites;
-let engine =  Matter.Runner.run(engine);
+let engine =  Matter.Runner.run(Engine);
 let render = Render.create({
   element: document.body,
   engine: engine
