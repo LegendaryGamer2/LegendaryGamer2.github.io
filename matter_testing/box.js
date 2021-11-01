@@ -18,10 +18,16 @@ function Box(x, y, w, h, img, stuck, mat){
   this.img = img;
   World.add(world, this.body);
 
-  this.slowDown = function(){
-    // Body.setVelocity(this.body, {x: 0, y: 0});
-  
+  this.isOffScreen = function (){
+    let pos = this.body.position;
+    return pos.y > height + 100;
+
   };
+
+  this.removeFromWorld = function (){
+    World.remove(world, this.body);
+  };
+
   this.show = function() {
     let pos = this.body.position;
     let angle = this.body.angle;

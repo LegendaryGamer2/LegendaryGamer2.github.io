@@ -20,9 +20,13 @@ let level = 1;
 let boxXY;
 let step = 0;
 
+
+
+
 let Engine = Matter.Engine,
   World = Matter.World,
   Vector = Matter.Vector,
+  Render = Matter.Render,
   Bodies = Matter.Bodies,
   Body = Matter.Body,
   Composites = Matter.Composite,
@@ -32,6 +36,7 @@ let Engine = Matter.Engine,
 function preload(){
   wood = loadImage("assets/wood.png");
 }
+
 
 function rolling(x, y, img, rotated){
   translate(x, y);
@@ -49,8 +54,9 @@ function setup() {
   let options = {
     isStatic: true
   };
-  ground = Bodies.rectangle(0, height-20, windowWidth * 2, 10, options);
+  ground = Bodies.rectangle(0, height-20, windowWidth, 10, options);
   World.add(world, ground);
+
 }
 
 function mousePressed(){
@@ -65,9 +71,13 @@ function draw() {
   background(255);
   // representation of the ground
   
-  rect(0, height-25, width, 10);
+  rect(0, height-25, windowWidth, 10);
   for (let i = 0; i < boxes.length; i++){
     boxes[i].show();
-    boxes[i].slowDown();
+    if (boxes[i].isOffScreen()){
+      boxes[i].removeFromWorld();
+      boxes.splice(i, 1);
+      
+    }
   }
 }
