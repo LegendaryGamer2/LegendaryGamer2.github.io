@@ -1,30 +1,19 @@
-function Box(x, y, w, h, img, stuck, mat){
-  if (mat === "wood"){
-    this.body = Bodies.rectangle(x, y, w, h, {
-      // the properties of the pig being created
-      friction: 1,
-      force: { x: 0, y: 0},
-      frictionAir: 0,
-      density: 10,
-      inertia: 0, 
-      isStatic: stuck,
-    }
-    );
-  }
-  this.x = x;
-  this.y = y;
-  this.w = w;
-  this.h = h;
-  this.img = img;
+function Particle(x, y, r, fixed) {
+  let options = {
+    friction: 0,
+    restitution: 0.95,
+    isStatic: fixed
+  };
+  this.body = Bodies.circle(x, y, r, options);
+  this.r = r;
   World.add(world, this.body);
 
-  this.isOffScreen = function (){
+  this.isOffScreen = function() {
     let pos = this.body.position;
     return pos.y > height + 100;
-
   };
 
-  this.removeFromWorld = function (){
+  this.removeFromWorld = function() {
     World.remove(world, this.body);
   };
 
@@ -34,8 +23,11 @@ function Box(x, y, w, h, img, stuck, mat){
     push();
     translate(pos.x, pos.y);
     rotate(angle);
-    imageMode(CENTER);
-    image(this.img, 0, 0, this.w, this.h); 
+    rectMode(CENTER);
+    strokeWeight(1);
+    stroke(255);
+    fill(127);
+    ellipse(0, 0, this.r * 2);
     pop();
   };
 }

@@ -36,7 +36,7 @@ module.exports = {
       "console": true,
       "Matter":true,
       "Helpers":true,
-
+      
       //allow timing functions in JS
       "setTimeout": true,
       "setInterval": true,
